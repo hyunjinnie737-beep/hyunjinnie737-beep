@@ -4,26 +4,26 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>DeMergencias — Simulador y Emergencia</title>
-<!-- Tailwind CDN -->
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
-  html,body { height:100%; }
-  body { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; 
-         @apply bg-gradient-to-r from-indigo-50 via-pink-50 to-yellow-50; }
+  html, body { height:100%; margin:0; font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }
+  body { background-color: #f3f4f6; } /* fondo limpio y suave */
   .big { font-size: 1.35rem; }
   .huge { font-size: 1.6rem; font-weight:700; }
-  .card { @apply bg-white/80 backdrop-blur p-5 rounded-2xl shadow-lg; }
-  .danger { @apply bg-gradient-to-r from-red-500 to-rose-500 text-white font-bold; }
-  .calm { @apply bg-gradient-to-r from-sky-400 to-indigo-500 text-white; }
+  .card { background-color: #ffffff; padding: 20px; border-radius: 1rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+  .btn { min-height:48px; font-weight:600; border-radius:12px; transition:all 0.2s ease-in-out; display:flex; align-items:center; justify-content:center; gap:8px; cursor:pointer; }
+  .btn:hover { transform: scale(1.05); }
+  .btn-primary { background-color:#3b82f6; color:white; }
+  .btn-danger { background-color:#ef4444; color:white; }
+  .btn-silent { background-color:#111827; color:white; }
+  .chip { display:inline-block; padding:0.25rem 0.75rem; border-radius:9999px; background:#e5e7eb; font-size:0.875rem; }
   .muted { color:#6b7280; }
-  .chip { @apply inline-block px-3 py-1 rounded-full text-sm bg-gray-100 border; }
-  button { min-height:48px; @apply transition-all hover:scale-105; }
 </style>
 </head>
 <body>
 <div class="min-h-screen flex items-center justify-center p-6">
   <div class="max-w-4xl w-full grid grid-cols-1 md:grid-cols-3 gap-6">
-    <!-- Left: main card -->
+    <!-- Left main card -->
     <div class="md:col-span-2 card">
       <div class="flex items-center justify-between mb-4">
         <div>
@@ -38,24 +38,13 @@
 
       <!-- Buttons -->
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
-        <button id="openSimulator" class="calm rounded-xl big flex items-center justify-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-6h6v6m2 4H7a2 2 0 01-2-2V7a2 2 0 012-2h5l2 2h5a2 2 0 012 2v10a2 2 0 01-2 2z" />
-          </svg>
+        <button id="openSimulator" class="btn btn-primary big">
           SIMULADOR
         </button>
-
-        <button id="panicVisible" class="danger rounded-xl big flex items-center justify-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
+        <button id="panicVisible" class="btn btn-danger big">
           ¡EMERGENCIA!
         </button>
-
-        <button id="panicSilent" class="bg-black text-white rounded-xl big flex items-center justify-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
+        <button id="panicSilent" class="btn btn-silent big">
           Panic Silencioso
         </button>
       </div>
@@ -79,26 +68,26 @@
         <h3 class="text-xl font-semibold mb-2">Estado de Emergencia</h3>
         <div id="panicStatus" class="p-3 bg-gray-50 rounded-lg big">Lista para usar.</div>
         <div class="mt-3 flex gap-3">
-          <button id="sendAlertNow" class="bg-emerald-500 text-white rounded-xl px-4 py-2 big">Simular enviar alertas</button>
-          <button id="downloadEvidence" class="bg-indigo-600 text-white rounded-xl px-4 py-2 big">Descargar evidencia (ZIP)</button>
-          <button id="copyAlert" class="bg-gray-700 text-white rounded-xl px-4 py-2 big">Copiar alerta</button>
+          <button id="sendAlertNow" class="btn btn-primary px-4 py-2 big">Simular enviar alertas</button>
+          <button id="downloadEvidence" class="btn btn-primary px-4 py-2 big">Descargar evidencia (ZIP)</button>
+          <button id="copyAlert" class="btn btn-primary px-4 py-2 big">Copiar alerta</button>
         </div>
       </div>
 
       <!-- AI / Detector -->
       <div class="mt-6">
         <h3 class="text-lg font-semibold mb-2">Detector rápido (IA básica gratis)</h3>
-        <div class="text-sm muted mb-2">Este detector es local, sin claves: usa palabras clave para marcar riesgo. Si querés IA externa (mejor), ingresá tu token de Hugging Face abajo.</div>
+        <div class="text-sm muted mb-2">Analiza palabras clave para marcar riesgo.</div>
         <textarea id="textToAnalyze" placeholder="Pega aquí un mensaje para analizar..." class="w-full p-3 rounded-lg border h-28"></textarea>
         <div class="flex gap-3 mt-3">
-          <button id="analyzeBtn" class="bg-yellow-500 text-black rounded-xl px-4 py-2 big">Analizar (rápido)</button>
-          <button id="hfAnalyze" class="bg-sky-500 text-white rounded-xl px-4 py-2 big">Analizar con Hugging Face (opcional)</button>
+          <button id="analyzeBtn" class="btn btn-primary px-4 py-2 big">Analizar (rápido)</button>
+          <button id="hfAnalyze" class="btn btn-primary px-4 py-2 big">Analizar con Hugging Face (opcional)</button>
         </div>
         <div id="analysisResult" class="mt-3 p-3 bg-gray-50 rounded-lg big"></div>
 
-        <div class="mt-4 p-3 bg-white/60 rounded-lg border">
-          <label class="block muted mb-1 big">Token Hugging Face (opcional, gratuita cuenta HF)</label>
-          <input id="hfToken" class="w-full p-3 rounded-lg border" placeholder="Pega tu token aquí si querés usar su inference API" />
+        <div class="mt-4 p-3 bg-white rounded-lg border">
+          <label class="block muted mb-1 big">Token Hugging Face (opcional)</label>
+          <input id="hfToken" class="w-full p-3 rounded-lg border" placeholder="Pega tu token aquí" />
           <div class="text-sm muted mt-1">Si lo usas, el análisis será más avanzado.</div>
         </div>
       </div>
@@ -112,7 +101,7 @@
         <input id="cname" placeholder="Nombre" class="w-full p-3 rounded-lg border mb-2" />
         <input id="cemail" placeholder="Correo (recomendado)" class="w-full p-3 rounded-lg border mb-2" />
         <input id="cphone" placeholder="Teléfono (opcional)" class="w-full p-3 rounded-lg border mb-2" />
-        <button id="addContact" class="w-full bg-indigo-500 text-white rounded-xl px-4 py-2 big">Añadir contacto</button>
+        <button id="addContact" class="btn btn-primary w-full big">Añadir contacto</button>
       </div>
       <div class="mt-4">
         <h4 class="font-semibold">Instrucciones rápidas</h4>
@@ -128,8 +117,7 @@
 </div>
 
 <script>
-// Aquí va TODO tu JS original sin cambios funcionales (simulador, panic, análisis de texto, contactos, HF...)
+// Tu JS original aquí
 </script>
 </body>
 </html>
-
